@@ -52,7 +52,7 @@ export default class JsonTest extends Component {
     return fetch('https://cart-handling-test.herokuapp.com/products', {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer ' + await getStringData("loginToken"),  
+        'Authorization': 'Bearer ' + this.state.loginToken  
       },
     })
       .then((response) => {

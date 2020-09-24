@@ -25,7 +25,7 @@ const Router = createStackNavigator(
   },
   
   {
-    initialRouteName: 'JsonTest',
+    initialRouteName: 'HomeScreen',
     headerMode: 'none',
   }
 );
