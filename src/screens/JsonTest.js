@@ -25,9 +25,25 @@ export default class JsonTest extends Component {
     this.state = {
       isLoading: true,
       dataSource: [],
+      loginToken: "",
+      bindToken: "",
+
     }
+
+    setToken()
   }
 
+  setToken = async () => {
+    loginToken = await getStringData("loginToken")
+    bindToken = await getStringData("bindToken")
+
+    this.setState({
+      loginToken: loginToken,
+      bindToken: bindToken
+    })
+  }
+
+  
   renderItem = item => (
     <Item product={item} />
   );
@@ -36,7 +52,7 @@ export default class JsonTest extends Component {
     return fetch('https://cart-handling-test.herokuapp.com/products', {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI1ZjY3NzA4OTYwMTljZTFkZGYxODkzMWQiLCJjdXN0b21lcklkIjoiIiwiY3JlYXRlRGF0ZSI6IlN1biBTZXAgMjAgMTU6MDk6MDYgVVRDIDIwMjAiLCJzaG9wcGluZ0RhdGUiOiIifQ.r_ZCNBpyvuKz-DE4DEu8UUy73ErKvG2dHfi5oFLcvgZq6U7ATD1QjZlWcMgJ_fPmoHYtzDw3vCqFAQiJxSoCrw'
+        'Authorization': 'Bearer ' + await getStringData("loginToken"),  
       },
     })
       .then((response) => {

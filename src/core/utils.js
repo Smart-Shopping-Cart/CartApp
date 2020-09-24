@@ -94,8 +94,6 @@ export const bindCartToServer = async (token) => {
 };
 
 
-
-
 // //====================== asynce storage store and read data ====================
 
 //Storing string value
