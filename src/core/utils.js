@@ -21,8 +21,8 @@ export const nameValidator = (name) => {
   return '';
 };
 
-export const loginToServer = (email, password) => {
-  fetch('http://10.0.0.4:8080/login', {
+export const loginToServer = async (email, password) => {
+  fetch('https://cart-handling.herokuapp.com/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -33,14 +33,15 @@ export const loginToServer = (email, password) => {
       password: password,
     }),
   })
-    .then((response) => {
+    .then( async (response) => {
+      await storeStringData('loginStatus', response.status.stringify)
       return response.text();
     })
-    .then((responseJson) => {
+    .then( async (responseJson) => {
       console.log('Login Token:\n ' + responseJson);
-
-      storeStringData('loginToken', responseJson);
+      await storeStringData('loginToken', responseJson);
     })
+
     .catch((error) => {
       console.log(error);
     });
@@ -103,7 +104,7 @@ export const storeStringData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
     console.log('storing string asynce data');
-    console.log('key=' + key + 'value=' + value);
+    console.log('key= ' + key + '\nvalue= ' + value);
   } catch (e) {
     // saving error
   }

@@ -16,10 +16,10 @@ const Item = ({ product }) => (
   </View>
 );
 
-const mayo = '../assets/mayu.jpg'
-const maple = "../assets/maple.jpg"
-const bamba = '../assets/rsz_bag_of_bamba.jpg'
-const render = "../assets/maple.jpg"
+const mayo = '../assets/mayu-removebg-preview.png'
+const maple = "../assets/maple-removebg-preview.png"
+// const bamba = '../assets/rsz_bag_of_bamba.jpg'
+const render = "../assets/maple-removebg-preview.png"
 
 
 
@@ -46,38 +46,6 @@ export default class ShoppingCart extends Component {
       bindToken: bindingToken
     })
   }
-
-
-  // doInterval = () => {
-  //   this.myInterval = setInterval(() => {
-  //     console.log('getting shopping cart products')
-
-  //     fetch('https://cart-handling.herokuapp.com/getShoppingCart', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Authorization': 'Bearer ' + bindToken,
-  //       },
-  //     })
-
-  //       .then((response) => {
-  //         console.log(response.status)
-  //         return response.json()
-  //       })
-  //       .then((responseJson) => {
-  //         // console.log(responseJson)
-  //         // var count = Object.keys(responseJson).length
-  //         // console.log(count)
-  //         this.setState({
-  //           dataSource: responseJson
-  //           , isLoading: false
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-
-  //   }, 1000)
-  // }
 
   callServer = async () => {
     fetch('https://cart-handling-test.herokuapp.com/products', {

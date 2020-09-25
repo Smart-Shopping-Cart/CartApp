@@ -24,7 +24,7 @@ const Router = createStackNavigator(
   },
 
   {
-    initialRouteName: 'ShoppingCart',
+    initialRouteName: 'HomeScreen',
     headerMode: 'none',
   },
 );
