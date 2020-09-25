@@ -9,7 +9,7 @@ import {
   Dashboard,
   CashRegister,
   ScanQr,
-  JsonTest,
+  ShoppingCart,
 } from './src/screens';
 
 const Router = createStackNavigator(
@@ -21,11 +21,11 @@ const Router = createStackNavigator(
     Dashboard,
     ScanQr,
     CashRegister,
-    JsonTest,
+    ShoppingCart,
   },
   
   {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'ShoppingCart',
     headerMode: 'none',
   }
 );

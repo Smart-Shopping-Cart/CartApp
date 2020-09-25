@@ -5,6 +5,6 @@ export { default as ForgotPasswordScreen } from './ForgotPasswordScreen';
 export { default as Dashboard } from './Dashboard';
 export { default as CashRegister } from './CashRegister';
 export { default as ScanQr } from './ScanQr';
-export { default as JsonTest } from './JsonTest';
+export { default as ShoppingCart } from './ShoppingCart';
 
 

@@ -8,7 +8,7 @@ import {
 import Background from '../components/Background';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
-import { getStringData, storeStringData } from '../core/utils';
+import { bindCartToServer, getStringData, storeStringData } from '../core/utils';
 
 export default class ScanQr extends Component {
   constructor(props) {
@@ -24,9 +24,10 @@ export default class ScanQr extends Component {
   }
 
   onRead = async (e) => {
+    loginToken = await getStringData("loginToken")
     await storeStringData("cameraIP", e.data)
-
-    this.props.navigation.navigate('JsonTest')
+    bindCartToServer(loginToken)
+    this.props.navigation.navigate('ShoppingCart')
   }
 
   render() {

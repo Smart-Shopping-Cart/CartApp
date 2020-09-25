@@ -70,9 +70,15 @@ export const signUpToServer = (email, password) => {
     })
 };
 
-export const bindCartToServer = async (token) => {
+export const bindCartToServer = async (token, ip) => {
   console.log('binding shopping cart to the server')
-  fetch('https://cart-handling.herokuapp.com/bind/0', {
+
+  cameraIp = "0"
+  if (ip != "") {
+    cameraip = ip
+  }
+
+  fetch('https://cart-handling.herokuapp.com/bind/' + cameraIp, {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer ' + await getStringData("loginToken"),

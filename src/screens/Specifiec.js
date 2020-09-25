@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 
-export default class JsonTest extends Component {
+export default class ShoppingCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
