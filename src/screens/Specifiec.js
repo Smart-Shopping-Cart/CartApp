@@ -1,5 +1,12 @@
-import React, { Component } from 'react';
-import { ActivityIndicator, Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import React, {Component} from 'react';
+import {
+  ActivityIndicator,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 
 export default class JsonTest extends Component {
   constructor(props) {
@@ -7,25 +14,26 @@ export default class JsonTest extends Component {
     this.state = {
       isLoading: true,
       dataSource: [],
-    }
+    };
   }
 
   componentDidMount() {
-    return fetch('https://cart-handling-test.herokuapp.com/products', {
+    return fetch('localhost:8080/products', {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI1ZjY3NGUzNDNjMzA4ZTEwMDFkZWIzZDgiLCJjdXN0b21lcklkIjoiIiwiY3JlYXRlRGF0ZSI6IlN1biBTZXAgMjAgMTM6MjI6MjQgVVRDIDIwMjAiLCJzaG9wcGluZ0RhdGUiOiIifQ.CzNaen82Ppvcu8kq7oqs9JCe0xQpUFTdEQzg3_9yhEa-uw6DN9cPIa8usj_IwFS3h-0Id471g0I6TIW43BFrKQ'
+        Authorization:
+          'Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI1ZjY3NGUzNDNjMzA4ZTEwMDFkZWIzZDgiLCJjdXN0b21lcklkIjoiIiwiY3JlYXRlRGF0ZSI6IlN1biBTZXAgMjAgMTM6MjI6MjQgVVRDIDIwMjAiLCJzaG9wcGluZ0RhdGUiOiIifQ.CzNaen82Ppvcu8kq7oqs9JCe0xQpUFTdEQzg3_9yhEa-uw6DN9cPIa8usj_IwFS3h-0Id471g0I6TIW43BFrKQ',
       },
     })
       .then((response) => {
-        console.log(response.status)
-        return response.json()
+        console.log(response.status);
+        return response.json();
       })
       .then((responseJson) => {
-        console.log(responseJson)
+        console.log(responseJson);
         this.setState({
-          dataSource: responseJson
-          , isLoading: false
+          dataSource: responseJson,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -33,12 +41,10 @@ export default class JsonTest extends Component {
       });
   }
 
-
-
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, paddingTop: 20 }}>
+        <View style={{flex: 1, paddingTop: 20}}>
           <ActivityIndicator />
         </View>
       );
@@ -48,25 +54,22 @@ export default class JsonTest extends Component {
       <View style={styles.container}>
         <FlatList
           data={this.state.dataSource}
-          renderItem={
-            ({ item }) => (
-              <View style={{ flex: 1, paddingTop: 20 }}>
-                <Text> {item.id}</Text>
-                <Text> {item.name}</Text>
-                <Text> {item.price}</Text>
+          renderItem={({item}) => (
+            <View style={{flex: 1, paddingTop: 20}}>
+              <Text> {item.id}</Text>
+              <Text> {item.name}</Text>
+              <Text> {item.price}</Text>
             </View>
-
-              )
-            }
-            keyExtractor={item => item.id}
-          />
-              </View>
-            );
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    );
   }
 }
 const styles = StyleSheet.create({
-          container: {
-          flex: 1,
+  container: {
+    flex: 1,
     alignItems: 'center',
     alignContent: 'center',
     flexDirection: 'row',
@@ -74,15 +77,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   touchButton: {
-          alignSelf: 'center',
+    alignSelf: 'center',
     backgroundColor: '#2980b9',
     paddingVertical: 25,
     width: 295,
     margin: 15,
   },
   touchButtonText: {
-          textAlign: 'center',
+    textAlign: 'center',
     color: '#ffffff',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
-})
+});

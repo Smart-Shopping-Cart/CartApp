@@ -1,12 +1,11 @@
-import React, { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {memo} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-const Item = ({ children }) => (
-
+const Item = ({children}) => (
   <View style={styles.item}>
-    <Text >{children}</Text>
+    <Text>{children}</Text>
   </View>
-)
+);
 
 const styles = StyleSheet.create({
   item: {
@@ -16,6 +15,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
 });
-
 
 export default memo(Item);

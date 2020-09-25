@@ -1,6 +1,5 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 import {
   HomeScreen,
   LoginScreen,
@@ -23,11 +22,11 @@ const Router = createStackNavigator(
     CashRegister,
     JsonTest,
   },
-  
+
   {
     initialRouteName: 'HomeScreen',
     headerMode: 'none',
-  }
+  },
 );
 
 export default createAppContainer(Router);
