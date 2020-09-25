@@ -18,8 +18,6 @@ const Item = ({ product }) => (
 
 const mayo = '../assets/mayu-removebg-preview.png'
 const maple = "../assets/maple-removebg-preview.png"
-// const bamba = '../assets/rsz_bag_of_bamba.jpg'
-const render = "../assets/maple-removebg-preview.png"
 
 
 
@@ -48,27 +46,27 @@ export default class ShoppingCart extends Component {
   }
 
   callServer = async () => {
-    fetch('https://cart-handling-test.herokuapp.com/products', {
+    console.log(await getStringData('bindToken'))
+    fetch('https://cart-handling-test.herokuapp.com/getShoppingCart', {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer ' + "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI1ZjY3NzA4OTYwMTljZTFkZGYxODkzMWQiLCJjdXN0b21lcklkIjoiIiwiY3JlYXRlRGF0ZSI6IkZyaSBTZXAgMjUgMDg6MjE6MjggVVRDIDIwMjAiLCJzaG9wcGluZ0RhdGUiOiIifQ.vNLj_kBLxKnH9FKHsM9pZwYFXdD1ZPFhQaEuRXJ3sM0rTYBltnZR6jVlm6_SvLU_1tRTpA--03obQWPp9s0u6w"
+        'Authorization': await getStringData('bindToken'),
+        'Accept': 'application/json'
       },
-    })
-      .then((response) => {
-        console.log(response.status)
-        return response.json()
-      })
-      .then((responseJson) => {
-        // console.log(responseJson)
-        var count = Object.keys(responseJson).length
-        console.log(count)
-        this.setState({
-          dataSource: responseJson
-          , isLoading: false
+    }).then((response) => {
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('Something went wrong fetching cart');
+      }
+    }).then((responseJson) => {
+      var count = Object.keys(responseJson).length
+      this.setState({
+        dataSource: responseJson,
+        isLoading: false
         });
-      })
-      .catch((error) => {
-        console.error(error);
+    }).catch((error) => {
+        console.log(error);
       });
   }
 
@@ -78,7 +76,7 @@ export default class ShoppingCart extends Component {
 
       return this.callServer()
     }
-      , 3000)
+      , 10000)
   }
 
 

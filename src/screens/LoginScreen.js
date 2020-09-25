@@ -10,33 +10,35 @@ import { theme } from '../core/theme';
 import {
   emailValidator,
   passwordValidator,
-  loginToServer,
   getStringData,
+  storeStringData,
 } from '../core/utils';
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
-
-  const _onLoginPressed = async () => {
-    const emailError = emailValidator(email.value);
-    const passwordError = passwordValidator(password.value);
-
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError });
-      setPassword({ ...password, error: passwordError });
-      return;
+const loginToServer = (email, password,navigation) => {
+  storeStringData('email', email);
+  storeStringData('password', password);
+  fetch('https://cart-handling.herokuapp.com/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'text/plain;charset=UTF-8',
+    },
+    body: JSON.stringify({
+      name: email,
+      password: password,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.text();
+    } else {
+      throw new Error('Something went wrong');
     }
-
-    loginToServer(email.value, password.value);
-
-    loginStatus =  await getStringData("loginStatus")
-    console.log("loginStatus " + loginStatus)
-
-    if (loginStatus == "202" || loginStatus == "200") {
+  }).then((responseJson) => {
+      console.log('login successfully');
+      storeStringData('loginToken','Bearer ' + responseJson);
       navigation.navigate('Dashboard');
-    }
-    else {
+  }).catch((error) => {
+      console.log('login failed');
       Alert.alert(
         "Login Failed",
         "userName or Password not found",
@@ -50,7 +52,23 @@ const LoginScreen = ({ navigation }) => {
         ],
         { cancelable: false }
       );
+    });
+  }
+const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
+
+  const _onLoginPressed = () => {
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value);
+
+    if (emailError || passwordError) {
+      setEmail({ ...email, error: emailError });
+      setPassword({ ...password, error: passwordError });
+      return;
     }
+
+    loginToServer(email.value, password.value,navigation);
   };
 
   return (
