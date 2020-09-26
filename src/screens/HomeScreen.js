@@ -14,6 +14,7 @@ import {
 const HomeScreen = ({navigation}) => {
 
   const checkIfNeedCredential = async ()=>{
+    //storeStringData("bindToken","Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI1ZjY3NmQxYWM1YjVhYzI0YTg0ZmI4NWIiLCJjdXN0b21lcklkIjoiNWY2ZmJiYmIzZTI0Yzc2ZGIzYzU0NzI4IiwiY3JlYXRlRGF0ZSI6IlNhdCBTZXAgMjYgMjI6MDE6MzEgVVRDIDIwMjAiLCJzaG9wcGluZ0RhdGUiOiJTdW4gU2VwIDI3IDAxOjA3OjU2IElEVCAyMDIwIn0.d12-N4aYA9-L4jPkRzhBTjBZrOqG_g-M-OX-UAVqA5RL98Qy6b2rqzDCrCJ3-PkGtIc1hwluVJu1E8qRUIt4fg")
     email = await getStringData("email")
     password = await getStringData("password")
     if(email!=null && password!=null){

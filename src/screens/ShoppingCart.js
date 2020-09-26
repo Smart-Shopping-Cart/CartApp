@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, Text, View, StyleSheet, TouchableOpacity, FlatList, StatusBar, Image } from 'react-native';
+import { ActivityIndicator, Text, View, StyleSheet, TouchableOpacity, FlatList, StatusBar, Image,Alert,BackHandler } from 'react-native';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Button from '../components/Button';
 import Header from '../components/Header';
-import { getStringData } from '../core/utils';
+import { getStringData,removeValueData } from '../core/utils';
 
 
 
@@ -38,7 +38,6 @@ export default class ShoppingCart extends Component {
   setToken = async () => {
     loginingToken = await getStringData("loginToken")
     bindingToken = await getStringData("bindToken")
-
     this.setState({
       loginToken: loginingToken,
       bindToken: bindingToken
@@ -53,30 +52,52 @@ export default class ShoppingCart extends Component {
         'Authorization': await getStringData('bindToken'),
         'Accept': 'application/json'
       },
-    }).then((response) => {
+    }).then(async(response) => {
       if (response.ok) {
         return response.text();
-      } else {
+      } else if(response.status=="500"){
+        removeValueData('bindToken');
+        Alert.alert(
+          "takes too long :\!",
+          "shopping session has expired",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false });
+        clearInterval(this.myInterval);
+        this.props.navigation.navigate('Dashboard')
+      }
+      else{
+        clearInterval(this.myInterval);
         throw new Error('Something went wrong fetching cart');
       }
     }).then((responseJson) => {
-      var count = Object.keys(responseJson).length
       this.setState({
         dataSource: responseJson,
         isLoading: false
         });
     }).catch((error) => {
         console.log(error);
+        this.props.navigation.navigate('Dashboard')
       });
   }
 
   componentDidMount() {
     this.myInterval = setInterval(() => {
       console.log('getting shopping cart products')
-
       return this.callServer()
     }
-      , 10000)
+      , 2000)
+      this.backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",()=>{
+          this.props.navigation.navigate('Dashboard')
+        }
+      );
   }
 
 
@@ -95,7 +116,7 @@ export default class ShoppingCart extends Component {
         <Logo />
         <Header>Shopping Cart</Header>
         <FlatList style={styles.container}
-          data={this.state.dataSource}
+          data={JSON.parse(this.state.dataSource).products}
           renderItem={
             ({ item }) => (
               <View style={styles.item}>
@@ -108,10 +129,11 @@ export default class ShoppingCart extends Component {
           }
           keyExtractor={item => item.name}
         />
-
+        <Text style={styles.title}>Total Price: {JSON.parse(this.state.dataSource).totalPrice} </Text>  
         <Button
           mode="outlined"
-          onPress={() => this.props.navigation.navigate('HomeScreen')}>
+          onPress={() =>{ removeValueData('bindToken');
+            this.props.navigation.navigate('HomeScreen')}}>
           CheckOut
          </Button>
       </Background>
@@ -135,53 +157,3 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
 });
-
-
-
-// return fetch('https://cart-handling-test.herokuapp.com/products', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Authorization': 'Bearer ' + this.state.loginToken
-  //   },
-  // })
-  // .then((response) => {
-  //   console.log(response.status)
-  //   return response.json()
-  // })
-  // .then((responseJson) => {
-  //   // console.log(responseJson)
-  //   var count = Object.keys(responseJson).length
-  //   console.log(count)
-  //   this.setState({
-  //     dataSource: responseJson
-  //     , isLoading: false
-  //   });
-  // })
-  // .catch((error) => {
-  //   console.error(error);
-  // });
-
-
-  // fetch('https://cart-handling.herokuapp.com/getShoppingCart', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Authorization': 'Bearer ' + this.state.bindToken,
-  //   },
-  // })
-
-  //   .then((response) => {
-  //     console.log(response.status)
-  //     return response.json()
-  //   })
-  //   .then((responseJson) => {
-  //     // console.log(responseJson)
-  //     // var count = Object.keys(responseJson).length
-  //     // console.log(count)
-  //     this.setState({
-  //       dataSource: responseJson
-  //       , isLoading: false
-  //     });
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
