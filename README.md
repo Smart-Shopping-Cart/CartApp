@@ -17,4 +17,4 @@ The app supports the payment option, to interface to the cart using a barcode, a
 - `react-native-community/async-storage`
 - `react-navigation": 4.4.0`
 - `react-native-camera:3.40.0`
--` react-native-permissions: 2.2.0`
+- `react-native-permissions: 2.2.0`
