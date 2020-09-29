@@ -21,32 +21,6 @@ export const nameValidator = (name) => {
   return '';
 };
 
-export const loginToServer = async (email, password) => {
-  fetch('https://cart-handling.herokuapp.com/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'text/plain;charset=UTF-8',
-    },
-    body: JSON.stringify({
-      name: email,
-      password: password,
-    }),
-  })
-    .then( async (response) => {
-      await storeStringData('loginStatus', response.status.stringify)
-      return response.text();
-    })
-    .then( async (responseJson) => {
-      console.log('Login Token:\n ' + responseJson);
-      await storeStringData('loginToken', responseJson);
-    })
-
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
 export const signUpToServer = (email, password) => {
   console.log('on signUpToServer');
   fetch('http://10.0.0.4:8080/signUp', {
@@ -70,42 +44,14 @@ export const signUpToServer = (email, password) => {
     });
 };
 
-export const bindCartToServer = async (token, ip) => {
-  console.log('binding shopping cart to the server')
-
-  cameraIp = "0"
-  if (ip != "") {
-    cameraip = ip
-  }
-
-  fetch('https://cart-handling.herokuapp.com/bind/' + cameraIp, {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer ' + (await getStringData('loginToken')),
-    },
-  })
-    .then((response) => {
-      return response.text();
-    })
-    .then((responseJson) => {
-      console.log('Bind Token:\n ' + responseJson);
-
-      storeStringData('bindToken', responseJson);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
 // //====================== asynce storage store and read data ====================
 
 //Storing string value
 export const storeStringData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
-    console.log('storing string asynce data');
-    console.log('key= ' + key + '\nvalue= ' + value);
   } catch (e) {
+    console.log(e);
     // saving error
   }
 };
@@ -116,6 +62,7 @@ export const storeObjectData = async (key, value) => {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
   } catch (e) {
+    console.log(e);
     // saving error
   }
 };
@@ -125,10 +72,9 @@ export const getStringData = async (key) => {
   try {
     return await AsyncStorage.getItem(key);
   } catch (e) {
+    console.log(e);
     // read error
   }
-
-  console.log('Done.');
 };
 
 //Reading object value
@@ -137,6 +83,16 @@ export const getObjectData = async (key) => {
     const jsonValue = await AsyncStorage.getItem(key);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e) {
+    console.log(e);
     // error reading value
   }
 };
+
+export const removeValueData = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key)
+  } catch(e) {
+    console.log(e);
+    // remove error
+  }
+}
