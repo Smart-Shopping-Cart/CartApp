@@ -133,7 +133,7 @@ export default class ShoppingCart extends Component {
         <Button
           mode="outlined"
           onPress={() =>{ removeValueData('bindToken');
-            this.props.navigation.navigate('HomeScreen')}}>
+            this.props.navigation.navigate('Checkout')}}>
           CheckOut
          </Button>
       </Background>

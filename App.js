@@ -1,5 +1,5 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import {
   HomeScreen,
   LoginScreen,
@@ -9,6 +9,10 @@ import {
   CashRegister,
   ScanQr,
   ShoppingCart,
+  Checkout,
+  CardDetailsMock,
+  PayMock,
+  MyAccountMock,
 } from './src/screens';
 
 const Router = createStackNavigator(
@@ -21,6 +25,10 @@ const Router = createStackNavigator(
     ScanQr,
     CashRegister,
     ShoppingCart,
+    Checkout,
+    CardDetailsMock,
+    PayMock,
+    MyAccountMock,
   },
 
   {

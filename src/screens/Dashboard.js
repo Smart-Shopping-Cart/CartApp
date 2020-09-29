@@ -33,7 +33,7 @@ const Dashboard = ({ navigation }) => {
   <Background>
     <Logo />
     <Header>Let’s start</Header>
-    <Button mode="outlined" onPress={() => navigation.navigate('HomeScreen')}>
+    <Button mode="outlined" onPress={() => navigation.navigate('MyAccountMock')}>
       My Account
     </Button>
     {!isThereBindToken?
