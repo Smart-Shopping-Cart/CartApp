@@ -13,7 +13,7 @@ const Dashboard = ({ navigation }) => (
     {/* <Paragraph>
       "balbla"
     </Paragraph> */}
-    <Button mode="outlined" onPress={() => navigation.navigate('HomeScreen')}>
+    <Button mode="outlined" onPress={() => navigation.navigate('MyAccountMock')}>
       My Account
     </Button><Button mode="outlined" onPress={() => navigation.navigate('ScanQr')}>
       Scan QR code
